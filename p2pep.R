@@ -8,7 +8,7 @@ library(magrittr)
 library(ggbeeswarm)
 library(dplyr)
 library(Hmisc)
-
+library(reshape2)
 library(knitr)
 library(rmarkdown)
 
@@ -183,7 +183,9 @@ df7 %>% nest(-attendee) -> df7
 df %>% select(attendee,`First Name`, `Last Name`) -> df8
 colnames(df8) <- c("attendee", "firstname", "lastname")
 
-left_join(df7, df8) -> df9
+# join with names
+left_join(df7, df8) %>% arrange(lastname) -> df9
+
 
 #now make printable schedules
 # after Mine C-R at rmarkdown.rstudio.com/articles_mail_merge.html
