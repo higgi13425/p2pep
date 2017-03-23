@@ -189,5 +189,12 @@ left_join(df7, df8) -> df9
 # after Mine C-R at rmarkdown.rstudio.com/articles_mail_merge.html
 #using df9 as input data
 
+for (i in 1:nrow(df9)) {
+  rmarkdown::render(
+    input = "schedules.Rmd",
+    output_format = "word_document",
+    output_file = paste("schedule_", i, ".doc", sep = "")
+  )
+}
 
 

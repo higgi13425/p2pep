@@ -1,0 +1,36 @@
+---
+title: "P2PEP17"
+author: "The Michigan IBD Patient to Patient Education Project"
+date: "March 25, 2017"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+<br><br>
+<br><br>
+
+
+```{r echo=FALSE}
+firstname <- df9$firstname[i]
+lastname <- df9$lastname[i]
+library(knitr)
+table <- knitr::kable(df9$data[i])
+```
+
+### Welcome to P2PEP17   
+
+Thank you for coming to #P2PEP17, `r firstname` `r lastname`.   
+
+We will start with a Welcome Session and Orientation at 9:20 in Forum Hall.
+
+The fourth session, from 11:40 to 1:00 PM, will include time for lunch and time to visit the sponsor displays in the atrium.
+
+There will also be a wrap-up and feedback session from 1:40 to 1:50 PM in Forum Hall.
+
+We have created a custom schedule for you, based on your preferences entered on the eventbrite website.
+
+Here is your customized schedule for today:   
+
+`r table`
