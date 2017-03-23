@@ -8,7 +8,7 @@ library(magrittr)
 library(ggbeeswarm)
 library(dplyr)
 library(Hmisc)
-
+library(reshape2)
 library(knitr)
 library(rmarkdown)
 
@@ -20,6 +20,19 @@ df<- read_excel("PH2017Mar23.xlsx", sheet=1)
 df <- dplyr::rename(df, order=`Order #`)
 df <- dplyr::rename(df, attendee=`Attendee #`)
 df <- dplyr::rename(df, breakout=`Which break-out group best suits you?`)
+
+#fill in some missing data in first 4 rows
+df[1:4,33]<-"Other or prefer not to say"
+df[2,23]<-"Infections in IBD"
+df[2:4,24]<-"My Experience in Clinical Trials"
+df[2:4,25]<-"Will My Baby Develop IBD?"
+df[2:4,26]<-"Physical Therapy for Pain in IBD"
+df[2:4,27]<-"Transitioning from Pediatric to Adult Care"
+df[2:4,28]<-"Insurance Challenges with IBD" 
+df[2:4,29]<-"Being Your Own Advocate in a Healthcare Setting"
+df[2:4,30]<-"Travel with IBD"
+df[2:4,31]<-"Fatigue Reduction Diet"
+df[2:4,32]<-"PTSD in IBD"
 
 #Now select columns with 10 ranked choices, rename them to be shorter
 df %>% 
@@ -111,12 +124,12 @@ discrep <- mapply(setdiff, df5, df4)
 table(df5$session)
 
 #list filled in rows
-df5 %>% filter(is.na(time)) %>% arrange(session)
+df5 %>% filter(is.na(time)) %>% arrange(session) %>% print(n=Inf)
 
-#count which sessions underfilled
+#count which topics underfilled
 df5 %>% dplyr::count(topic) %>% 
   arrange(desc(n)) %>% 
-  print()
+  print(n=Inf)
 
 #fill missing sessions with low subscribed sessions
 #session 1
@@ -174,6 +187,13 @@ df6<- df6 %>% select(attendee, session, topic, time, room)
 #remove choice column from df5
 df5 %>% select(-choice) -> df5
 
+#repair 34 unexplained missing rooms in df5
+filter(df5,is.na(room))
+df5$room[df5$topic=="Will My Baby Develop IBD?"]<- "Boardroom 3"
+df5$room[df5$topic=="Infections in IBD"]<- "Boardroom 4"
+df5$room[df5$topic=="Transitioning from Pediatric to Adult Care"]<- "Boardroom 4"
+df5$room[df5$topic=="Dating and Intimacy in IBD"]<- "Great Lakes 5"
+
 #combine df5 and df6
 df7 <- rbind(df5, df6)
 
@@ -183,7 +203,9 @@ df7 %>% nest(-attendee) -> df7
 df %>% select(attendee,`First Name`, `Last Name`) -> df8
 colnames(df8) <- c("attendee", "firstname", "lastname")
 
-left_join(df7, df8) -> df9
+# join with names
+left_join(df7, df8) %>% arrange(lastname) -> df9
+
 
 #now make printable schedules
 # after Mine C-R at rmarkdown.rstudio.com/articles_mail_merge.html

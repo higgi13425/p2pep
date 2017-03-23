@@ -1,6 +1,8 @@
 ---
 title: "P2PEP17"
-author: "The Michigan IBD Patient to Patient Education Project"
+author: 
+- The University of Michigan IBD Patient to Patient Education Project
+- with The Crohn's and Colitis Student Initiative
 date: "March 25, 2017"
 output: word_document
 ---
@@ -8,8 +10,6 @@ output: word_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-<br><br>
-<br><br>
 
 
 ```{r echo=FALSE}
@@ -19,8 +19,8 @@ library(knitr)
 table <- knitr::kable(df9$data[i])
 ```
 
-### Welcome to P2PEP17   
-
+Welcome to P2PEP17   
+----
 Thank you for coming to #P2PEP17, `r firstname` `r lastname`.   
 
 We will start with a Welcome Session and Orientation at 9:20 in Forum Hall.
